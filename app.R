@@ -106,8 +106,8 @@ corpo<- dashboardBody(
     tabItem(tabName = "Grafo",
             fluidRow(
               numericInput('OcorrenciaMinima',label = 'Minima quantidade de vezes que uma palavra ocorre',value = 2,min=1,max=1000),
-              #plotOutput('Grafo'))
-              visNetworkOutput('Grafo_Dinamico'))
+              plotOutput('Grafo'))
+              #visNetworkOutput('Grafo_Dinamico'))
             
             
     ),
