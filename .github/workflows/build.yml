@@ -27,7 +27,7 @@ jobs:
         R -e 'install.packages("shinylive")'
 
     - name: Build Shiny App
-      run: R -e 'shinylive::export_app(".", "shinylive_app")'
+      run: R -e 'shinylive::export(".", "shinylive_app")'
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
