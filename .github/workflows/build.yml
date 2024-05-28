@@ -18,8 +18,7 @@ jobs:
 
     - name: Install ShinyLive
       run: |
-        R -e 'install.packages("remotes")'
-        R -e 'remotes::install_github("rstudio/shinylive")'
+        R -e 'install.packages("shinylive")'
 
     - name: Build Shiny App
       run: R -e 'shinylive::export_app(".", "shinylive_app")'
