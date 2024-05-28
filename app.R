@@ -106,8 +106,8 @@ corpo<- dashboardBody(
     tabItem(tabName = "Grafo",
             fluidRow(
               numericInput('OcorrenciaMinima',label = 'Minima quantidade de vezes que uma palavra ocorre',value = 2,min=1,max=1000),
-              plotOutput('Grafo'))
-              #visNetworkOutput('Grafo_Dinamico'))
+              #plotOutput('Grafo'))
+              visNetworkOutput('Grafo_Dinamico'))
             
             
     ),
@@ -115,6 +115,7 @@ corpo<- dashboardBody(
 
     tabItem(tabName = "Segmentacao",
             fluidRow(
+                            selectInput('Tipo_Nota_Segmentacao','Tipo de nota para segmentação',choices=c('Autoavaliacao','Gestor.direto','Outros.Avaliadores','Media.Final')),
                             plotlyOutput('Segmentacao_Time')
               
               
@@ -496,11 +497,14 @@ server <- function(input, output) {
       }else{
         df=leitura()
       }
+      Segmentacao=input$Tipo_Nota_Segmentacao
       #print(df)
-      Resultado=df %>% select(Media.Final,Avaliado,Competencia)
+      #Resultado=df %>% select(Media.Final,Avaliado,Competencia)
+      Resultado=df[,c('Avaliado','Competencia',Segmentacao)]
       Resultado=Resultado[complete.cases(Resultado),]
       print(Resultado)
-      Resultado=Resultado %>% pivot_wider(id_cols='Avaliado',values_from='Media.Final',names_from='Competencia')
+      #Resultado=Resultado %>% pivot_wider(id_cols='Avaliado',values_from='Media.Final',names_from='Competencia')
+      Resultado=Resultado %>% pivot_wider(id_cols='Avaliado',values_from=Segmentacao,names_from='Competencia')
       print(Resultado)
       PCA=prcomp(Resultado[,-1],scale=TRUE)
       sdev <- PCA$sdev
