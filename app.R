@@ -307,7 +307,7 @@ server <- function(input, output) {
   output$GeradorSobre<-renderUI({
     
     if(input$Tab=="Sobre"){
-      h4('Desenvolvido pelo time de Data Science\n Para mais detalhes ou expansão, abrir tarefa no kambam e comunicar o lider atual ')
+      h4('Desenvolvido pelo time de Data Science\n Para mais detalhes ou expansão, abrir tarefa no clickup e comunicar o lider atual')
       
       
     }
@@ -323,9 +323,13 @@ server <- function(input, output) {
     }else{
       df=leitura()
     }
-    df=df[,-which(names(df)=="Media.Final")]
+    #df=df[,-which(names(df)=="Media.Final")] #%>% select(-data)
+    #if ('data' %in% names(df))
+    #  df=df %>% select(-data)
     Colaborador=input$Seletor_Pessoas
     #Gerar_Visual_Deia(df,Colaborador)
+    #print(names(df))
+    df=df %>% select(Avaliado,Autoavaliacao,Gestor.direto,Outros.Avaliadores,Competencia)
     p<-Gerar_Visual_Comparativo(df,Colaborador)
     p
     #ggplotly(p)
@@ -419,8 +423,9 @@ server <- function(input, output) {
       df=leitura()
     }
     Colaborador=input$Seletor_Pessoas
-    df %>% filter(Avaliado==Colaborador)
-    
+    #datatable(, options = list(scrollX = TRUE))
+    x=df %>% filter(Avaliado==Colaborador)
+    x
   })
   
   output$Correlacao<-renderDataTable({
